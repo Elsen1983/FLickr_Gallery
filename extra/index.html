@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Multiple Ways to Consume Flickr API in jQuery & JavaScript | YogiHosting Demo</title>
+    <link rel="icon" type="image/png" href="http://www.yogihosting.com/wp-content/themes/yogi-yogihosting/Images/favicon.ico" />
+    <meta charset="utf-8" />
+    <style>
+        body {
+            background: #111 no-repeat;
+            background-image: -webkit-gradient(radial, 50% 0, 150, 50% 0, 300, from(#444), to(#111));
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            color: #FFF;
+        }
+
+            h2 a {
+                color: #0184e3;
+                text-decoration: none;
+            }
+
+                h2 a:hover {
+                    text-decoration: underline;
+                }
+
+            h3 a {
+                color: #00e8ff;
+                text-decoration: none;
+            }
+
+                h3 a:hover {
+                    text-decoration: underline;
+                }
+
+        .container {
+            width: 985px;
+            margin: auto;
+            color: #FFF;
+            font-size: 25px;
+        }
+
+            .container h3 {
+                font-size: 20px;
+            }
+
+        #content {
+            border: dashed 2px #CCC;
+            padding: 10px;
+        }
+
+        #reset {
+            padding: 5px 10px;
+            background: #4CAF50;
+            border: none;
+            color: #FFF;
+            cursor: pointer;
+        }
+
+            #reset:hover {
+                color: #4CAF50;
+                background: #FFF;
+            }
+
+        #outputDiv {
+            color: #0184e3;
+        }
+
+        input, #submit {
+            font-size: 25px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Multiple Ways to Consume Flickr API in jQuery & JavaScript</h1>
+    <h2>Important Link - <a href="http://www.yogihosting.com/jquery-getjson/">jQuery getJSON</a></h2>
+    <h3><button id="reset">Reset »</button></h3>
+    <div class="container">
+        <div id="content">
+            <input id="search" type="text" placeholder="search text" />
+            <button id="submit" onclick="JavaScriptFetch()">Submit</button>
+            <div id="outputDiv"></div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script>
+        /*JavaScript Method*/
+        function JavaScriptFetch() {
+            var script = document.createElement('script');
+            script.src = "https://api.flickr.com/services/feeds/photos_public.gne?format=json&tags=" + document.getElementById("search").value;
+            document.querySelector('head').appendChild(script);
+        }
+
+        function jsonFlickrFeed(data) {
+            var image = "";
+            data.items.forEach(function (element) {
+                image += "<img src=\"" + element.media.m + "\"/>";
+            });
+
+            document.getElementById("outputDiv").innerHTML = image;
+        }
+        /*End*/
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#reset").click(function (e) {
+                location.reload();
+            });
+
+            $("#submit").click(function (e) {
+                $("#outputDiv").html("");
+
+                /*jQuery AJAX Method*/
+                /*var flickerAPI = "https://api.flickr.com/services/feeds/photos_public.gne?format=json&tags=" + $("#search").val();
+                $.ajax({
+                    url: flickerAPI,
+                    dataType: "jsonp", // jsonp
+                    jsonpCallback: 'jsonFlickrFeed', // add this property
+                    success: function (result, status, xhr) {
+                        $.each(result.items, function (i, item) {
+                            $("<img>").attr("src", item.media.m).appendTo("#outputDiv");
+                            if (i === 5) {
+                                return false;
+                            }
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr)
+                        $("#outputDiv").html("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                    }
+                });*/
+                /*End*/
+
+                /*jQuery getJSON Method*/
+                /*var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
+                $.getJSON(flickerAPI, {
+                    tags: $("#search").val(),
+                    tagmode: "any",
+                    format: "json"
+                }).done(function (result, status, xhr) {
+                    $.each(result.items, function (i, item) {
+                        $("<img>").attr("src", item.media.m).appendTo("#outputDiv");
+                        if (i === 5) {
+                            return false;
+                        }
+                    });
+                }).fail(function (xhr, status, error) {
+                    alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                });*/
+                /*End*/
+            });
+        });
+    </script>
+</body>
+</html>
